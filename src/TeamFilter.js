@@ -1,5 +1,6 @@
 import Button from "@material-ui/core/Button";
 import React, {Component} from "react";
+import {ThemeProvider} from "@material-ui/styles";
 
 
 class TeamFilter extends Component {
@@ -18,9 +19,11 @@ class TeamFilter extends Component {
     }
 
     render() {
-        return <Button variant="contained" color={this.state.selected ? "primary":""} onClick={this.handleClick}>
-            {this.props.team}
-        </Button>
+        return <ThemeProvider theme={this.props.theme}>
+            <Button variant="contained" color={this.state.selected ? "primary":""} onClick={this.handleClick}>
+                {this.props.team}
+            </Button>
+        </ThemeProvider>
     }
 }
 

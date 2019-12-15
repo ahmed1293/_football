@@ -2,10 +2,19 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import Fixture from "./Fixture";
 import {makeStyles, Typography} from "@material-ui/core";
-import darkTheme from "./Theme";
 import {ThemeProvider} from "@material-ui/styles";
 import TeamFilter from "./TeamFilter";
-
+import {
+    darkTheme,
+    arsenalTheme,
+    spursTheme,
+    liverpoolTheme,
+    cityTheme,
+    unitedTheme,
+    chelseaTheme,
+    norwichTheme
+} from "./themes";
+import {ARSENAL, CHELSEA, CITY, LIVERPOOL, NORWICH, SPURS, UNITED} from "./constants";
 
 const tileNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
@@ -35,12 +44,13 @@ function App() {
               </Typography>
 
               <div className={classes.buttons} align="center">
-                <TeamFilter team="Arsenal"/>
-                <TeamFilter team="Spurs"/>
-                <TeamFilter team="Liverpool"/>
-                <TeamFilter team="Manchester City"/>
-                <TeamFilter team="Manchester United"/>
-                <TeamFilter team="Chelsea"/>
+                <TeamFilter theme={arsenalTheme} team={ARSENAL}/>
+                <TeamFilter theme={spursTheme} team={SPURS}/>
+                <TeamFilter theme={liverpoolTheme} team={LIVERPOOL}/>
+                <TeamFilter theme={cityTheme} team={CITY}/>
+                <TeamFilter theme={unitedTheme} team={UNITED}/>
+                <TeamFilter theme={chelseaTheme} team={CHELSEA}/>
+                <TeamFilter theme={norwichTheme} team={NORWICH}/>
               </div>
 
               <Grid container direction="row" justify="center" alignItems="center" spacing={4}>
