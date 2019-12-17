@@ -4,6 +4,7 @@ import {ThemeProvider} from "@material-ui/styles";
 import {darkTheme,} from "./themes";
 import Filters from "./Filters";
 import Search from "./Search";
+import Fixtures from "./Fixtures";
 
 
 const titleStyle = makeStyles({
@@ -26,6 +27,8 @@ function App() {
               <Filters/>
 
               <Search/>
+
+              <Fixtures/>
 
           </div>
       </ThemeProvider>

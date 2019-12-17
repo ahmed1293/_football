@@ -8,6 +8,7 @@ const useStyles = theme => ({
     '& > *': {
       margin: theme.spacing(1),
       width: 800,
+      paddingBottom: 50
     },
   },
 });
@@ -27,7 +28,7 @@ class Search extends Component {
         const {classes} = this.props;
 
         return <form className={classes.root}>
-            <TextField label="Search..." name="input" value={this.state.input} />
+            <TextField label="Search..." name="input" />
         </form>
     }
 }
