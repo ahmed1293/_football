@@ -20,7 +20,7 @@ function Filters() {
     const classes = useStyles();
 
     return (
-        <div className={classes.buttons} align="center">
+        <div className={classes.buttons}>
             <TeamFilter theme={arsenalTheme} team={ARSENAL}/>
             <TeamFilter theme={spursTheme} team={SPURS}/>
             <TeamFilter theme={liverpoolTheme} team={LIVERPOOL}/>

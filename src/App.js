@@ -1,11 +1,9 @@
 import React from 'react';
-import Grid from "@material-ui/core/Grid";
-import Fixture from "./Fixture";
 import {makeStyles, Typography} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
 import {darkTheme,} from "./themes";
 import Filters from "./Filters";
-import Competition from "./Competition";
+import Search from "./Search";
 
 
 const titleStyle = makeStyles({
@@ -20,17 +18,15 @@ function App() {
 
     return (
       <ThemeProvider theme={darkTheme}>
-          <div className="App">
+          <div className="App" align="center">
               <Typography className={classes.title} variant="h3" align="center" color="primary" gutterBottom>
                   _football
               </Typography>
 
               <Filters/>
 
-              <Grid container direction="row" justify="center" alignItems="center" spacing={2}>
-                  <Competition titleTheme={classes.title} name="Premier League"/>
-                  <Competition titleTheme={classes.title} name="Europe"/>
-              </Grid>
+              <Search/>
+
           </div>
       </ThemeProvider>
   );
