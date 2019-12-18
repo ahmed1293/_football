@@ -1,5 +1,5 @@
-import React from 'react';
-import {makeStyles, Typography} from "@material-ui/core";
+import React, {Component} from 'react';
+import {Typography} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
 import {darkTheme,} from "./themes";
 import Filters from "./Filters";
@@ -7,32 +7,53 @@ import Search from "./Search";
 import Fixtures from "./Fixtures";
 
 
-const titleStyle = makeStyles({
-    title: {
-        paddingBottom: 20,
+class App extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            filteredTeams: [],
+            searchText: ''
+        };
+        this.addTeamFilter = this.addTeamFilter.bind(this);
+        this.removeTeamFilter = this.removeTeamFilter.bind(this);
+        this.updateSearchText = this.updateSearchText.bind(this);
     }
-});
 
+    addTeamFilter(team) {
+        let filteredTeams = this.state.filteredTeams;
+        filteredTeams.push(team);
+        this.setState({filteredTeams: filteredTeams});
+        console.log(`added ${team}`);
+    }
 
-function App() {
-    const classes = titleStyle();
+    removeTeamFilter(team) {
+        let filteredTeams = this.state.filteredTeams;
+        this.setState({filteredTeams: filteredTeams.filter(val => val !== team)});
+        console.log(`removed ${team}`);
+    }
 
-    return (
-      <ThemeProvider theme={darkTheme}>
-          <div className="App" align="center">
-              <Typography className={classes.title} variant="h3" align="center" color="primary" gutterBottom>
-                  _football
-              </Typography>
+    updateSearchText(text) {
+        this.setState({searchText: text});
+        console.log(`search text: ${text}`);
+    }
 
-              <Filters/>
+    render() {
+        return (
+            <ThemeProvider theme={darkTheme}>
+                <div className="App" align="center">
+                    <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
 
-              <Search/>
+                    <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}/>
 
-              <Fixtures/>
+                    <Search filter={this.updateSearchText}/>
 
-          </div>
-      </ThemeProvider>
-  );
+                    <Fixtures/>
+
+                </div>
+            </ThemeProvider>
+        );
+    }
 }
 
 export default App;
