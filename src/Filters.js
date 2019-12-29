@@ -39,12 +39,8 @@ class Filters extends Component {
         return (
             <div className={classes.buttons}>
                 {this.teams.map(team =>
-                    <TeamFilter
-                        activate={this.props.addFilter}
-                        deactivate={this.props.removeFilter}
-                        theme={team.theme}
-                        teamName={team.name}
-                        key={team.name}
+                    <TeamFilter activate={this.props.addFilter} deactivate={this.props.removeFilter}
+                                theme={team.theme} teamName={team.name} key={team.name}
                     />
                 )}
             </div>
@@ -75,9 +71,9 @@ class TeamFilter extends Component {
     }
 
     handleClick() {
-        const selected = this.state.selected;
-        this.setState({selected: !selected});
-        !selected ? this.activate() : this.deactivate();
+        const selected = !this.state.selected;
+        this.setState({selected: selected});
+        selected ? this.activate() : this.deactivate();
     }
 
     render() {

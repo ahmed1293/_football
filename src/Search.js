@@ -23,7 +23,7 @@ class Search extends Component {
 
     filter(event) {
         const input = event.target.value;
-        this.props.filter(input);
+        this.props.addFilter(input);
     }
 
     render() {

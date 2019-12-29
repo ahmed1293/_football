@@ -12,8 +12,10 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filteredTeams: [],
-            searchText: ''
+            filters: {
+                search: '',
+                teams: []
+            },
         };
         this.addTeamFilter = this.addTeamFilter.bind(this);
         this.removeTeamFilter = this.removeTeamFilter.bind(this);
@@ -21,21 +23,30 @@ class App extends Component {
     }
 
     addTeamFilter(team) {
-        let filteredTeams = this.state.filteredTeams;
+        let filteredTeams = [...this.state.filters.teams];
         filteredTeams.push(team);
-        this.setState({filteredTeams: filteredTeams});
-        console.log(`added ${team}`);
+        const search = this.state.filters.search;
+        this.setState({filters: {
+            search: search,
+            teams: filteredTeams
+        }});
     }
 
     removeTeamFilter(team) {
-        let filteredTeams = this.state.filteredTeams;
-        this.setState({filteredTeams: filteredTeams.filter(val => val !== team)});
-        console.log(`removed ${team}`);
+        let filteredTeams = [...this.state.filters.teams];
+        const search = this.state.filters.search;
+        this.setState({filters: {
+            search: search,
+            teams: filteredTeams.filter(val => val !== team)
+        }});
     }
 
     updateSearchText(text) {
-        this.setState({searchText: text});
-        console.log(`search text: ${text}`);
+        const teams = [...this.state.filters.teams];
+        this.setState({filters: {
+            search: text,
+            teams: teams
+        }});
     }
 
     render() {
@@ -46,9 +57,9 @@ class App extends Component {
 
                     <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}/>
 
-                    <Search filter={this.updateSearchText}/>
+                    <Search addFilter={this.updateSearchText}/>
 
-                    <Fixtures/>
+                    <Fixtures filters={this.state.filters}/>
 
                 </div>
             </ThemeProvider>
