@@ -1,17 +1,12 @@
 import React, {Component} from "react";
 import List from "@material-ui/core/List";
 import MatchDay from "./MatchDay";
-import Divider from "@material-ui/core/Divider";
 import {withStyles} from "@material-ui/core";
+import * as axios from "axios";
+import {AUTH_TOKEN} from "./_token";
 
 
 const useStyles = () => ({
-    margins: {
-        marginBottom: 10,
-        marginTop: 10,
-        maxWidth: 800
-    },
-
     scrollable: {
         maxHeight: 800,
         overflowY: 'scroll',
@@ -19,67 +14,46 @@ const useStyles = () => ({
 });
 
 
-const RESPONSE = [
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Arsenal FC', away: 'Chelsea FC', time: '15:00'},
-    {home: 'Norwich FC', away: 'Sheffield United FC', time: '17:30'},
-];
-
-
 class Fixtures extends Component {
 
     constructor(props) {
         super(props);
-        this.filter = this.filter.bind(this);
-        this.filterFixture = this.filterFixture.bind(this);
-        this.fixtures = RESPONSE;
+        this.fetchFixtures = this.fetchFixtures.bind(this);
+        this.handleResponse = this.handleResponse.bind(this);
         this.state = {
-            'filteredFixtures': this.fixtures
+            'fixtures': {},
         };
     }
 
     componentDidMount() {
-        // fetch fixtures
+        this.fetchFixtures();
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        const searchChanges = prevProps.filters.search !== this.props.filters.search ;
-        const listChanges = prevProps.filters.teams.length !== this.props.filters.teams.length;
-        if (searchChanges || listChanges) {
-            this.filter();
-        }
+    async fetchFixtures() {
+        const url = 'https://api.football-data.org/v2/competitions/PL/matches';
+        const params = {'status': 'SCHEDULED'};
+        const headers = {'X-Auth-Token': AUTH_TOKEN,};
+        let response = await axios.get(url, {
+            params: params,
+            headers: headers
+        });
+        this.handleResponse(response.data);
     }
 
-    filter() {
-        const teamFilters = [...this.props.filters.teams];
+    handleResponse(data) {
+        const matches = data.matches;
+        let fixtures = {};
+        matches.forEach(match => {
+            let matchDay = match.matchday;
+            !(matchDay in fixtures) && (fixtures[matchDay] = {});
 
-        if (!teamFilters.length && !this.props.filters.search) {
-            this.setState({filteredFixtures: this.fixtures});
-            return
-        }
-
-        teamFilters.push(this.props.filters.search);
-        const filteredFixtures = this.fixtures.filter(
-            fixture => this.filterFixture(fixture, teamFilters)
-        );
-        this.setState({filteredFixtures: filteredFixtures});
-    }
-
-    filterFixture(fixture, teams) {
-        return teams.find(
-            filter => {
-                const home = fixture.home.toLowerCase();
-                const away = fixture.away.toLowerCase();
-                const filterLower = filter.toLowerCase();
-                return home.includes(filterLower) || away.includes(filterLower)
-            }
-        );
+            let fixture = {};
+            fixture.utcDate = match.utcDate;
+            fixture.home = match.homeTeam.name;
+            fixture.away = match.awayTeam.name;
+            fixtures[matchDay][match.id] = fixture;
+        });
+        this.setState({fixtures: fixtures});
     }
 
     render() {
@@ -87,10 +61,15 @@ class Fixtures extends Component {
 
         return <div>
             <List className={classes.scrollable}>
-                <Divider className={classes.margins} />
-                <MatchDay date='12/09/1993' fixtures={this.state.filteredFixtures}/>
-                <Divider className={classes.margins} />
-                <MatchDay date='11/09/1993' fixtures={this.state.filteredFixtures}/>
+                {Object.keys(this.state.fixtures).map(
+                    matchDay =>
+                        <MatchDay
+                            date={`Matchday ${matchDay}`}
+                            fixtures={this.state.fixtures[matchDay]}
+                            filters={this.props.filters}
+                            key={matchDay}
+                        />
+                )}
             </List>
         </div>
     }

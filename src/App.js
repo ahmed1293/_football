@@ -42,14 +42,18 @@ class App extends Component {
     }
 
     updateSearchText(text) {
-        const teams = [...this.state.filters.teams];
         this.setState({filters: {
             search: text,
-            teams: teams
+            teams: this.state.filters.teams
         }});
     }
 
     render() {
+        let allFilters = [...this.state.filters.teams];
+        if (this.state.filters.search.length > 0) {
+            allFilters.push(this.state.filters.search);
+        }
+
         return (
             <ThemeProvider theme={darkTheme}>
                 <div className="App" align="center">
@@ -59,7 +63,7 @@ class App extends Component {
 
                     <Search addFilter={this.updateSearchText}/>
 
-                    <Fixtures filters={this.state.filters}/>
+                    <Fixtures filters={allFilters}/>
 
                 </div>
             </ThemeProvider>

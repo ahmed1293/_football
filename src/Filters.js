@@ -78,7 +78,12 @@ class TeamFilter extends Component {
 
     render() {
         return <ThemeProvider theme={this.props.theme}>
-            <Button size="small" variant="contained" color={this.state.selected ? "primary":"default"} onClick={this.handleClick}>
+            <Button
+                size="small"
+                variant="contained"
+                color={this.state.selected ? "primary":"default"}
+                onClick={this.handleClick}
+            >
                 {this.props.teamName}
             </Button>
         </ThemeProvider>
