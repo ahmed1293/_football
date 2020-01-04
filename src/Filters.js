@@ -2,7 +2,7 @@ import Button from "@material-ui/core/Button";
 import React, {Component} from "react";
 import {ThemeProvider} from "@material-ui/styles";
 import {arsenalTheme, chelseaTheme, cityTheme, liverpoolTheme, norwichTheme, spursTheme, unitedTheme} from "./themes";
-import {ARSENAL, CHELSEA, CITY, LIVERPOOL, NORWICH, SPURS, UNITED} from "./constants";
+import * as constant from "./constants";
 import {withStyles} from "@material-ui/core";
 
 
@@ -17,18 +17,19 @@ const useStyles = theme => ({
 });
 
 
+// TODO: have a "deselect all" button
 class Filters extends Component {
 
     constructor(props) {
         super(props);
         this.teams = [
-            {theme: arsenalTheme, name: ARSENAL},
-            {theme: spursTheme, name: SPURS},
-            {theme: liverpoolTheme, name: LIVERPOOL},
-            {theme: cityTheme, name: CITY},
-            {theme: unitedTheme, name: UNITED},
-            {theme: chelseaTheme, name: CHELSEA},
-            {theme: norwichTheme, name: NORWICH},
+            {theme: arsenalTheme, name: constant.ARSENAL},
+            {theme: spursTheme, name: constant.SPURS},
+            {theme: liverpoolTheme, name: constant.LIVERPOOL},
+            {theme: cityTheme, name: constant.CITY},
+            {theme: unitedTheme, name: constant.UNITED},
+            {theme: chelseaTheme, name: constant.CHELSEA},
+            {theme: norwichTheme, name: constant.NORWICH},
         ]
     }
 
@@ -55,7 +56,7 @@ class TeamFilter extends Component {
         super(props);
         this.teamName = this.props.teamName;
         this.state = {
-            selected: false
+            selected: true
         };
         this.handleClick = this.handleClick.bind(this);
         this.activate = this.activate.bind(this);

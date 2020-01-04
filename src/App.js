@@ -5,6 +5,7 @@ import {darkTheme,} from "./themes";
 import Filters from "./Filters";
 import Search from "./Search";
 import Fixtures from "./Fixtures";
+import * as constant from "./constants";
 
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
         this.state = {
             filters: {
                 search: '',
-                teams: []
+                teams: constant.ALL_TEAMS
             },
         };
         this.addTeamFilter = this.addTeamFilter.bind(this);

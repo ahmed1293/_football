@@ -41,6 +41,7 @@ class Fixtures extends Component {
         this.handleResponse(response.data);
     }
 
+    // TODO: flag old, rescheduled, matchdays (check currentMatchDay in response)
     handleResponse(data) {
         const matches = data.matches;
         let fixtures = {};

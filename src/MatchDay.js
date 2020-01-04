@@ -1,6 +1,5 @@
 import React from "react";
 import {Typography} from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Match from "./Match";
 
