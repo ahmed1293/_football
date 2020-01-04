@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Typography} from "@material-ui/core";
+import {Box, Typography} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
 import {darkTheme,} from "./themes";
 import Filters from "./Filters";
@@ -57,14 +57,15 @@ class App extends Component {
         return (
             <ThemeProvider theme={darkTheme}>
                 <div className="App" align="center">
-                    <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
+                    <Box width="60%">
+                        <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
 
-                    <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}/>
+                        <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}/>
 
-                    <Search addFilter={this.updateSearchText}/>
+                        <Search addFilter={this.updateSearchText}/>
 
-                    <Fixtures filters={allFilters}/>
-
+                        <Fixtures filters={allFilters}/>
+                    </Box>
                 </div>
             </ThemeProvider>
         );

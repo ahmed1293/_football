@@ -8,8 +8,9 @@ import {AUTH_TOKEN} from "./_token";
 
 const useStyles = () => ({
     scrollable: {
-        maxHeight: 800,
+        maxHeight: "75vh",
         overflowY: 'scroll',
+        padding: 20
     }
 });
 
@@ -43,15 +44,16 @@ class Fixtures extends Component {
     handleResponse(data) {
         const matches = data.matches;
         let fixtures = {};
+        // split fixtures into match days
         matches.forEach(match => {
             let matchDay = match.matchday;
-            !(matchDay in fixtures) && (fixtures[matchDay] = {});
+            !(matchDay in fixtures) && (fixtures[matchDay] = []);
 
             let fixture = {};
-            fixture.utcDate = match.utcDate;
+            fixture.utcDate = new Date(match.utcDate);
             fixture.home = match.homeTeam.name;
             fixture.away = match.awayTeam.name;
-            fixtures[matchDay][match.id] = fixture;
+            fixtures[matchDay].push(fixture);
         });
         this.setState({fixtures: fixtures});
     }
@@ -64,7 +66,7 @@ class Fixtures extends Component {
                 {Object.keys(this.state.fixtures).map(
                     matchDay =>
                         <MatchDay
-                            date={`Matchday ${matchDay}`}
+                            day={`Matchday ${matchDay}`}
                             fixtures={this.state.fixtures[matchDay]}
                             filters={this.props.filters}
                             key={matchDay}
