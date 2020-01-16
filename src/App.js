@@ -19,7 +19,9 @@ class App extends Component {
             },
         };
         this.addTeamFilter = this.addTeamFilter.bind(this);
+        this.addAllTeamFilters = this.addAllTeamFilters.bind(this);
         this.removeTeamFilter = this.removeTeamFilter.bind(this);
+        this.removeAllTeamFilters = this.removeAllTeamFilters.bind(this);
         this.updateSearchText = this.updateSearchText.bind(this);
     }
 
@@ -33,12 +35,28 @@ class App extends Component {
         }});
     }
 
+    addAllTeamFilters() {
+        const search = this.state.filters.search;
+        this.setState({filters: {
+            search: search,
+            teams: constant.ALL_TEAMS
+        }});
+    }
+
     removeTeamFilter(team) {
         let filteredTeams = [...this.state.filters.teams];
         const search = this.state.filters.search;
         this.setState({filters: {
             search: search,
             teams: filteredTeams.filter(val => val !== team)
+        }});
+    }
+
+    removeAllTeamFilters() {
+        const search = this.state.filters.search;
+        this.setState({filters: {
+            search: search,
+            teams: []
         }});
     }
 
@@ -61,7 +79,8 @@ class App extends Component {
                     <Box width="60%">
                         <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
 
-                        <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}/>
+                        <Filters addFilter={this.addTeamFilter} removeFilter={this.removeTeamFilter}
+                                 addAll={this.addAllTeamFilters} removeAll={this.removeAllTeamFilters}/>
 
                         <Search addFilter={this.updateSearchText}/>
 
