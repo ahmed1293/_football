@@ -1,13 +1,12 @@
 import Button from "@material-ui/core/Button";
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import {ThemeProvider} from "@material-ui/styles";
-import {arsenalTheme, chelseaTheme, cityTheme, liverpoolTheme, norwichTheme, spursTheme, unitedTheme} from "./themes";
 import * as constant from "./constants";
-import {withStyles} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
     buttons: {
         '& > *': {
           margin: theme.spacing(1),
@@ -15,106 +14,67 @@ const useStyles = theme => ({
         paddingBottom: 50,
         paddingTop: 50
     }
-});
+}));
 
 
-class Filters extends Component {
+export default function Filters (props) {
 
-    constructor(props) {
-        super(props);
-        this.teams = [
-            {theme: arsenalTheme, name: constant.ARSENAL},
-            {theme: spursTheme, name: constant.SPURS},
-            {theme: liverpoolTheme, name: constant.LIVERPOOL},
-            {theme: cityTheme, name: constant.CITY},
-            {theme: unitedTheme, name: constant.UNITED},
-            {theme: chelseaTheme, name: constant.CHELSEA},
-            {theme: norwichTheme, name: constant.NORWICH},
-        ];
-        this.state = {
-            allSelected: true
-        };
-        this.selectAll = this.selectAll.bind(this);
-        this.removeAll = this.removeAll.bind(this);
+    const [allSelected, setAllSelected] = useState(true);
+
+    function selectAll() {
+        setAllSelected(true);
+        props.addAll();
     }
 
-    selectAll() {
-        this.setState({allSelected: true});
-        this.props.addAll();
+    function removeAll() {
+        setAllSelected(false);
+        props.removeAll();
     }
 
-    removeAll() {
-        this.setState({allSelected: false});
-        this.props.removeAll();
-    }
-
-
-    render() {
-        const {classes} = this.props;
-
-        return (
-            <div className={classes.buttons}>
-                {this.teams.map(team =>
-                    <TeamFilter activate={this.props.addFilter} deactivate={this.props.removeFilter} theme={team.theme}
-                                teamName={team.name} key={team.name} selected={this.state.allSelected}
-                    />
-                )}
-                <br/>
-                <ButtonGroup size="small" aria-label="small outlined button group">
-                  <Button onClick={this.selectAll}>All</Button>
-                  <Button onClick={this.removeAll}>None</Button>
-                </ButtonGroup>
-            </div>
-        )
-    }
+    const classes = useStyles();
+    return <div className={classes.buttons}>
+        {constant.TEAM_THEMES.map(teamTheme =>
+            <TeamFilter activate={props.addFilter} deactivate={props.removeFilter} theme={teamTheme.theme}
+                        teamName={teamTheme.team} key={teamTheme.team} selected={allSelected}
+            />
+        )}
+        <br/>
+        <ButtonGroup size="small" aria-label="small outlined button group">
+          <Button onClick={selectAll}>All</Button>
+          <Button onClick={removeAll}>None</Button>
+        </ButtonGroup>
+    </div>;
 }
 
 
-class TeamFilter extends Component {
+function TeamFilter(props) {
 
-    constructor(props) {
-        super(props);
-        this.teamName = this.props.teamName;
-        this.state = {
-            selected: this.props.selected
-        };
-        this.handleClick = this.handleClick.bind(this);
-        this.activate = this.activate.bind(this);
-        this.deactivate = this.deactivate.bind(this);
+    const teamName = props.teamName;
+    const [selected, setSelected] = useState(props.selected);
+
+    // BUG: props.selected is true; click on team so state.selected becomes false;
+    // click All; props.selected remains true so effect not called; state.selected remains false
+    useEffect(() => {
+       setSelected(props.selected);
+    }, [props.selected]);
+
+    function activate() {
+        return props.activate(teamName);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.selected !== this.props.selected) {
-            this.setState({selected: this.props.selected});
-        }
+    function deactivate() {
+        return props.deactivate(teamName);
     }
 
-    activate() {
-        return this.props.activate(this.teamName);
+    function handleClick() {
+        const newSelected = !selected;
+        setSelected(newSelected);
+        newSelected ? activate() : deactivate();
     }
 
-    deactivate() {
-        return this.props.deactivate(this.teamName);
-    }
-
-    handleClick() {
-        const selected = !this.state.selected;
-        this.setState({selected: selected});
-        selected ? this.activate() : this.deactivate();
-    }
-
-    render() {
-        return <ThemeProvider theme={this.props.theme}>
-            <Button
-                size="small"
-                variant="contained"
-                color={this.state.selected ? "primary":"default"}
-                onClick={this.handleClick}
-            >
-                {this.props.teamName}
-            </Button>
-        </ThemeProvider>
-    }
+    return <ThemeProvider theme={props.theme}>
+        <Button size="small" variant="contained" color={selected ? "primary":"default"} onClick={handleClick}>
+            {teamName}
+        </Button>
+    </ThemeProvider>
 }
-
-export default withStyles(useStyles)(Filters);

@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {withStyles} from "@material-ui/core";
+import React from "react";
+import {makeStyles} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
@@ -11,28 +11,19 @@ const useStyles = theme => ({
       paddingBottom: 50
     },
   },
-});
+}));
 
 
-class Search extends Component {
+export default function Search(props) {
 
-    constructor(props) {
-        super(props);
-        this.filter = this.filter.bind(this);
-    }
-
-    filter(event) {
+    function filter(event) {
         const input = event.target.value;
-        this.props.addFilter(input);
+        props.addFilter(input);
     }
 
-    render() {
-        const {classes} = this.props;
+    const classes = useStyles();
+    return <form className={classes.root}>
+        <TextField label="Search..." onChange={filter} />
+    </form>
 
-        return <form className={classes.root}>
-            <TextField label="Search..." onChange={this.filter} />
-        </form>
-    }
 }
-
-export default withStyles(useStyles)(Search); // this is weird...
