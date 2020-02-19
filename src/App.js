@@ -8,62 +8,61 @@ import Fixtures from "./Fixtures";
 import * as constant from "./constants";
 
 
-
 export default function App() {
 
-    const [filters, setFilters] = useState({
-        search: '',
-        teams: constant.ALL_TEAMS
+  const [filters, setFilters] = useState({
+    search: '',
+    teams: constant.ALL_TEAMS
+  });
+
+  function addTeamFilter(team) {
+    let filteredTeams = [...filters.teams];
+    filteredTeams.push(team);
+    const search = filters.search;
+    setFilters({search: search, teams: filteredTeams});
+  }
+
+  function addAllTeamFilters() {
+    const search = filters.search;
+    setFilters({search: search, teams: constant.ALL_TEAMS});
+  }
+
+  function removeTeamFilter(team) {
+    let filteredTeams = [...filters.teams];
+    const search = filters.search;
+    setFilters({
+      search: search,
+      teams: filteredTeams.filter(val => val !== team)
     });
+  }
 
-    function addTeamFilter(team) {
-        let filteredTeams = [...filters.teams];
-        filteredTeams.push(team);
-        const search = filters.search;
-        setFilters({search: search, teams: filteredTeams});
-    }
+  function removeAllTeamFilters() {
+    const search = filters.search;
+    setFilters({search: search, teams: []});
+  }
 
-    function addAllTeamFilters() {
-        const search = filters.search;
-        setFilters({search: search, teams: constant.ALL_TEAMS});
-    }
+  function updateSearchText(text) {
+    setFilters({search: text, teams: filters.teams});
+  }
 
-    function removeTeamFilter(team) {
-        let filteredTeams = [...filters.teams];
-        const search = filters.search;
-        setFilters({
-            search: search,
-            teams: filteredTeams.filter(val => val !== team)
-        });
-    }
+  let allFilters = [...filters.teams];
+  if (filters.search.length > 0) {
+    allFilters.push(filters.search);
+  }
 
-    function removeAllTeamFilters() {
-        const search = filters.search;
-        setFilters({search: search, teams: []});
-    }
+  return <ThemeProvider theme={darkTheme}>
+    <div className="App" align="center">
+      <Box width="60%">
+        <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
 
-    function updateSearchText(text) {
-        setFilters({search: text, teams: filters.teams});
-    }
+        <Filters addFilter={addTeamFilter} removeFilter={removeTeamFilter}
+                 addAll={addAllTeamFilters} removeAll={removeAllTeamFilters}/>
 
-    let allFilters = [...filters.teams];
-    if (filters.search.length > 0) {
-        allFilters.push(filters.search);
-    }
+        <Search addFilter={updateSearchText}/>
 
-    return <ThemeProvider theme={darkTheme}>
-        <div className="App" align="center">
-            <Box width="60%">
-                <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
-
-                <Filters addFilter={addTeamFilter} removeFilter={removeTeamFilter}
-                         addAll={addAllTeamFilters} removeAll={removeAllTeamFilters}/>
-
-                <Search addFilter={updateSearchText}/>
-
-                <Fixtures filters={allFilters}/>
-            </Box>
-        </div>
-    </ThemeProvider>;
+        <Fixtures filters={allFilters}/>
+      </Box>
+    </div>
+  </ThemeProvider>;
 }
 

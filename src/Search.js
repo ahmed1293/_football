@@ -16,14 +16,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Search(props) {
 
-    function filter(event) {
-        const input = event.target.value;
-        props.addFilter(input);
-    }
+  function filter(event) {
+    const input = event.target.value;
+    props.addFilter(input);
+  }
 
-    const classes = useStyles();
-    return <form className={classes.root}>
-        <TextField label="Search..." onChange={filter} />
-    </form>
+  const classes = useStyles();
+  return <form className={classes.root}>
+    <TextField label="Search..." onChange={filter}/>
+  </form>
 
 }
