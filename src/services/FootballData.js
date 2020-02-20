@@ -7,15 +7,17 @@ export default class footballData {
     this.token = token;
   }
 
-  async fetchFixtures() {
+  async fetchFixtures(source) {
     const url = 'https://api.football-data.org/v2/competitions/PL/matches';
     const params = {'status': 'SCHEDULED'};
     const headers = {'X-Auth-Token': this.token};
+
     let response = await axios.get(url, {
       params: params,
-      headers: headers
+      headers: headers,
+      cancelToken: source.token
     });
-    return this.handleResponse(response.data);
+    return this.handleResponse(response.data)
   }
 
   // TODO: flag old, rescheduled, matchdays (check currentMatchDay in response)

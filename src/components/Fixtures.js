@@ -2,7 +2,7 @@ import React from "react";
 import List from "@material-ui/core/List";
 import MatchDay from "./MatchDay";
 import {CircularProgress, makeStyles} from "@material-ui/core";
-import useFetchData from "../hooks/fetchedData";
+import useFetchData from "../hooks/fetchData";
 
 
 const useStyles = makeStyles({
@@ -23,9 +23,8 @@ export default function Fixtures({filters}) {
   }
   return <div>
     <List className={classes.scrollable}>
-      {Object.keys(fetch.data).map(
-        matchDay => <MatchDay day={`Matchday ${matchDay}`} fixtures={fetch.data[matchDay]}
-                              filters={filters} key={matchDay}/>
+      {Object.keys(fetch.data).map(matchDay =>
+        <MatchDay day={`Matchday ${matchDay}`} fixtures={fetch.data[matchDay]} filters={filters} key={matchDay}/>
       )}
     </List>
   </div>
