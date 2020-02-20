@@ -1,11 +1,11 @@
 import React, {useReducer} from 'react';
 import {Box, Typography} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
-import {darkTheme,} from "./themes";
+import {darkTheme,} from "../util/themes";
 import TeamFilters from "./TeamFilters";
 import Search from "./Search";
 import Fixtures from "./Fixtures";
-import * as constant from "./constants";
+import * as constant from "../util/constants";
 
 function init() {
   return initialState;

@@ -1,7 +1,7 @@
 import Button from "@material-ui/core/Button";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import {ThemeProvider} from "@material-ui/styles";
-import * as constant from "./constants";
+import * as constant from "../util/constants";
 import {makeStyles} from "@material-ui/core";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import {FilterContext} from "./App";

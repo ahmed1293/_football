@@ -13,15 +13,13 @@ const useStyles = makeStyles({
 });
 
 
-function MatchDay(props) {
+function MatchDay({fixtures, filters, day}) {
 
   const classes = useStyles();
 
-  let fixtures = props.fixtures;
-
-  if (props.filters.length > 0) {
+  if (filters.length > 0) {
     fixtures = fixtures.filter(fixture => {
-      return props.filters.find(
+      return filters.find(
         filter => {
           let home = fixture.home.toLowerCase();
           let away = fixture.away.toLowerCase();
@@ -48,7 +46,7 @@ function MatchDay(props) {
     return (
       <div>
         <Typography className={classes.heading} variant="h5" align="center" color="primary" gutterBottom>
-          {props.day}
+          {day}
         </Typography>
         {
           Object.keys(days).map(day => {
@@ -63,15 +61,13 @@ function MatchDay(props) {
   return null;
 }
 
-function FixturesInDay(props) {
+function FixturesInDay({fixtures, date}) {
 
   return <>
-    <Typography variant="h6" align="center" color="secondary" gutterBottom>
-      {props.date}
-    </Typography>
+    <Typography variant="h6" align="center" color="secondary" gutterBottom>{date}</Typography>
 
     {
-      props.fixtures.map((fixture, i) => {
+      fixtures.map((fixture, i) => {
         const time = fixture.utcDate.toTimeString().substr(0, 5);
         return <ListItemText primary={`${fixture.home} vs ${fixture.away}`} secondary={time} key={i}
                              primaryTypographyProps={{'color': 'primary'}}/>;

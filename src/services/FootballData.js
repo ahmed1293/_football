@@ -1,7 +1,7 @@
 import * as axios from "axios";
 
 
-export default class API {
+export default class footballData {
 
   constructor(token) {
     this.token = token;
