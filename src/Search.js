@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useContext} from "react";
 import {makeStyles} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import {FilterContext} from "./App";
 
 
 const useStyles = makeStyles(theme => ({
@@ -14,11 +15,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function Search(props) {
+export default function Search() {
+
+  const {dispatch} = useContext(FilterContext);
 
   function filter(event) {
-    const input = event.target.value;
-    props.addFilter(input);
+    dispatch({type: 'update search filter', value: event.target.value});
   }
 
   const classes = useStyles();

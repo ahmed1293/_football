@@ -31,7 +31,7 @@ function reducer(state, action) {
   }
 }
 
-export default function Fixtures(props) {
+export default function Fixtures({filters}) {
 
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
@@ -54,7 +54,7 @@ export default function Fixtures(props) {
     <List className={classes.scrollable}>
       {Object.keys(state.fixtures).map(
         matchDay => <MatchDay day={`Matchday ${matchDay}`} fixtures={state.fixtures[matchDay]}
-                              filters={props.filters} key={matchDay}/>
+                              filters={filters} key={matchDay}/>
       )}
     </List>
   </div>

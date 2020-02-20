@@ -1,66 +1,60 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import {Box, Typography} from "@material-ui/core";
 import {ThemeProvider} from "@material-ui/styles";
 import {darkTheme,} from "./themes";
-import Filters from "./Filters";
+import TeamFilters from "./TeamFilters";
 import Search from "./Search";
 import Fixtures from "./Fixtures";
 import * as constant from "./constants";
 
+function init() {
+  return initialState;
+}
+
+const initialState = {
+  search: '',
+  teams: constant.ALL_TEAMS
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'update search filter':
+      return {...state, search: action.value};
+    case 'add team filter':
+      let teams = [...state.teams];
+      teams.push(action.team);
+      return {...state, teams: teams};
+    case 'remove team filter':
+      return {...state, teams: [...state.teams].filter(val => val !== action.team)};
+    case 'remove all team filters':
+      return {...state, teams: []};
+    case 'add all team filters':
+      return {...state, teams: constant.ALL_TEAMS};
+    default:
+      throw new Error('Unexpected action type!')
+  }
+}
+
+export const FilterContext = React.createContext(null);
 
 export default function App() {
 
-  const [filters, setFilters] = useState({
-    search: '',
-    teams: constant.ALL_TEAMS
-  });
+  const [state, dispatch] = useReducer(reducer, initialState, init);
 
-  function addTeamFilter(team) {
-    let filteredTeams = [...filters.teams];
-    filteredTeams.push(team);
-    const search = filters.search;
-    setFilters({search: search, teams: filteredTeams});
-  }
-
-  function addAllTeamFilters() {
-    const search = filters.search;
-    setFilters({search: search, teams: constant.ALL_TEAMS});
-  }
-
-  function removeTeamFilter(team) {
-    let filteredTeams = [...filters.teams];
-    const search = filters.search;
-    setFilters({
-      search: search,
-      teams: filteredTeams.filter(val => val !== team)
-    });
-  }
-
-  function removeAllTeamFilters() {
-    const search = filters.search;
-    setFilters({search: search, teams: []});
-  }
-
-  function updateSearchText(text) {
-    setFilters({search: text, teams: filters.teams});
-  }
-
-  let allFilters = [...filters.teams];
-  if (filters.search.length > 0) {
-    allFilters.push(filters.search);
+  let filters = [...state.teams];
+  if (state.search.length > 0) {
+    filters.push(state.search);
   }
 
   return <ThemeProvider theme={darkTheme}>
     <div className="App" align="center">
       <Box width="60%">
-        <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
-
-        <Filters addFilter={addTeamFilter} removeFilter={removeTeamFilter}
-                 addAll={addAllTeamFilters} removeAll={removeAllTeamFilters}/>
-
-        <Search addFilter={updateSearchText}/>
-
-        <Fixtures filters={allFilters}/>
+        <FilterContext.Provider value={{state, dispatch}}>
+          <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
+          <TeamFilters/>
+          <Search/>
+          <Fixtures filters={filters}/>
+        </FilterContext.Provider>
       </Box>
     </div>
   </ThemeProvider>;
