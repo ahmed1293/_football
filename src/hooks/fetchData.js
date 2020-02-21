@@ -1,6 +1,4 @@
 import {useEffect, useReducer} from "react";
-import footballData from "../services/FootballData";
-import {AUTH_TOKEN} from "../_token";
 import * as axios from "axios";
 
 function init() {
@@ -20,7 +18,7 @@ function reducer(state, action) {
   }
 }
 
-export default function useFetchData() {
+export default function useFetchData(service) {
   const [state, dispatch] = useReducer(reducer, initialState, init);
 
   useEffect(() => {
@@ -30,17 +28,16 @@ export default function useFetchData() {
     async function fetchData() {
       dispatch({type: 'fetching'});
 
-      const api = new footballData(AUTH_TOKEN);
       source = axios.CancelToken.source();
-      const fixtures = await api.fetchFixtures(source);
+      const data = await service(source);
 
-      dispatch({type: 'fetched', data: fixtures});
+      dispatch({type: 'fetched', data: data});
     }
 
     !didCancel && fetchData();
 
     return () => {didCancel && source.cancel()}
-  }, []);
+  }, [service]);
 
   return state;
 }

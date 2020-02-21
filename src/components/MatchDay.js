@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     marginBottom: 20,
     marginTop: 20,
     maxWidth: "100%",
-    backgroundColor: '#2d2d2d'
+    backgroundColor: 'black'
   }
 });
 

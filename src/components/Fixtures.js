@@ -13,9 +13,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Fixtures({filters}) {
+export default function Fixtures({filters, service}) {
 
-  const fetch = useFetchData();
+  const fetch = useFetchData(service);
 
   const classes = useStyles();
   if (fetch.loading) {

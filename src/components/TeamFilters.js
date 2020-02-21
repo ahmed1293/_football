@@ -10,10 +10,8 @@ import {FilterContext} from "./App";
 const useStyles = makeStyles(theme => ({
   buttons: {
     '& > *': {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0.5),
     },
-    paddingBottom: 50,
-    paddingTop: 50
   }
 }));
 

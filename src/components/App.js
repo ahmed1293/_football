@@ -6,6 +6,10 @@ import TeamFilters from "./TeamFilters";
 import Search from "./Search";
 import Fixtures from "./Fixtures";
 import * as constant from "../util/constants";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
+import {fetchFixtures, fetchStandings} from "../services/FootballData";
+import LeagueTable from "./LeagueTable";
 
 function init() {
   return initialState;
@@ -47,16 +51,29 @@ export default function App() {
   }
 
   return <ThemeProvider theme={darkTheme}>
-    <div className="App" align="center">
-      <Box width="60%">
-        <FilterContext.Provider value={{state, dispatch}}>
+    <Grid container={true} spacing={4} style={{marginTop: "20px"}}>
+      <FilterContext.Provider value={{state, dispatch}}>
+        <Grid item={true} xs={12}>
           <Typography variant="h3" align="center" color="primary" gutterBottom>_football</Typography>
-          <TeamFilters/>
-          <Search/>
-          <Fixtures filters={filters}/>
-        </FilterContext.Provider>
-      </Box>
-    </div>
+          <Divider/>
+          <Box align="center" style={{margin: "20px"}}>
+            <TeamFilters/>
+            <Search/>
+          </Box>
+          <Divider/>
+        </Grid>
+        <Grid item={true} xs={4}>
+          <Box align="center">
+            <Fixtures filters={filters} service={fetchFixtures}/>
+          </Box>
+        </Grid>
+        <Grid item={true} xs={8}>
+          <Box align="center">
+            <LeagueTable highlightedTeams={state.teams} search={state.search} service={fetchStandings}/>
+          </Box>
+        </Grid>
+      </FilterContext.Provider>
+    </Grid>
   </ThemeProvider>;
 }
 
