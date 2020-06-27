@@ -1,13 +1,21 @@
-from datetime import datetime
 from typing import Dict, List
 
 import requests
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from app import settings
 from app.models import Match, Team, TableEntry
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
 
 
 @app.get('/')
