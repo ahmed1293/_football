@@ -57,3 +57,55 @@ def test_get_matches(client, mocked_responses):
     data = response.json()
     assert len(data['32']) == 2
     assert len(data['33']) == 1
+
+
+def test_get_table(client, mocked_responses):
+    mocked_responses.add(responses.GET, API_URL_REGEX, status=200, json={
+        "standings": [
+            {
+                "type": "TOTAL",
+                "table": [
+                    {
+                        "position": 1,
+                        "team": {
+                            "id": 64,
+                            "name": "Liverpool FC",
+                            "crestUrl": "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg"
+                        },
+                        "playedGames": 31,
+                        "won": 28,
+                        "draw": 2,
+                        "lost": 1,
+                        "points": 86,
+                        "goalsFor": 70,
+                        "goalsAgainst": 21,
+                        "goalDifference": 49
+                    },
+                    {
+                        "position": 2,
+                        "team": {
+                            "id": 65,
+                            "name": "Manchester City FC",
+                            "crestUrl": "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg"
+                        },
+                        "playedGames": 31,
+                        "won": 20,
+                        "draw": 3,
+                        "lost": 8,
+                        "points": 63,
+                        "goalsFor": 77,
+                        "goalsAgainst": 33,
+                        "goalDifference": 44
+                    },
+                ]
+            },
+            {
+                "type": "NOT_TOTAL",
+                "table": []
+            }
+        ]
+    })
+
+    response = client.get('/football/PL/table')
+    data = response.json()
+    assert len(data) == 2
