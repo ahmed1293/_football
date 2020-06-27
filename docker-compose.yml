@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+
+  backend:
+    image: ahmed1293/football/backend:latest
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    command: uvicorn app.api:app --host 0.0.0.0 --port 8000
+    working_dir: /code
+    restart: always
+    ports:
+      - "8000:8000"
+
+  frontend:
+    image: ahmed1293/football/frontend:latest
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    working_dir: /code
+    tty: true
+    volumes:
+      - './frontend/:/code'
+      - '/node_modules'
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
