@@ -1,9 +1,11 @@
 from datetime import datetime
+from typing import Dict, List
 
 import requests
 from fastapi import FastAPI
 
 from app import settings
+from app.models import Match, Team
 
 app = FastAPI()
 
@@ -17,7 +19,7 @@ def home():
     }
 
 
-@app.get('/football/PL/matches')
+@app.get('/football/PL/matches', response_model=Dict[str, List[Match]])
 def matches():
     response = requests.get(
         url=f'{settings.FOOTBALL_DATA_URL}/PL/matches/?status=SCHEDULED',
@@ -27,15 +29,9 @@ def matches():
     )
     data = response.json()
     match_days = {}
-    for match_day in data['matches']:
-        match_day_no = match_day['matchday']
-        if match_day_no not in match_days:
-            match_days[match_day_no] = []
-        _datetime = datetime.strptime(match_day['utcDate'], '%Y-%m-%dT%H:%M:%SZ')
-        match_days[match_day_no].append({
-            'date': _datetime.strftime('%A %d %B %Y'),
-            'time': _datetime.strftime('%H:%M'),
-            'home': match_day['homeTeam'],
-            'away': match_day['awayTeam'],
-        })
+    for match in data['matches']:
+        match_day = match['matchday']
+        if match_day not in match_days:
+            match_days[match_day] = []
+        match_days[match_day].append(Match.from_api_matchday_obj(match))
     return match_days
