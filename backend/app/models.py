@@ -1,6 +1,10 @@
+from __future__ import annotations
 from datetime import datetime
+from typing import Any, Optional
 
-from pydantic.main import BaseModel
+from pydantic.main import BaseModel, BaseConfig
+
+from app.util import to_camel
 
 
 class Team(BaseModel):
@@ -10,18 +14,36 @@ class Team(BaseModel):
 
 class Match(BaseModel):
     id: int
-    date: str
-    time: str
-    home: Team
-    away: Team
+    utc_date: str
+    date: Optional[str]
+    time: Optional[str]
+    home_team: Team
+    away_team: Team
 
     @classmethod
-    def from_api_matchday_obj(cls, match_data: dict):
-        _datetime = datetime.strptime(match_data['utcDate'], '%Y-%m-%dT%H:%M:%SZ')
-        return cls(
-            id=match_data['id'],
-            date=_datetime.strftime('%A %d %B %Y'),
-            time=_datetime.strftime('%H:%M'),
-            home=Team(**match_data['homeTeam']),
-            away=Team(**match_data['awayTeam'])
-        )
+    def parse_obj(cls: Match, obj: Any) -> Match:
+        match: Match = super().parse_obj(obj)
+        if not match.date or not match.time:  # the api response parsed doesn't contain these fields
+            _dt = datetime.strptime(match.utc_date, '%Y-%m-%dT%H:%M:%SZ')
+            match.date = _dt.strftime('%A %d %B %Y')
+            match.time = _dt.strftime('%H:%M')
+        return match
+
+    class Config(BaseConfig):
+        alias_generator = to_camel
+
+
+class TableEntry(BaseModel):
+    position: int
+    team: Team
+    played_games: int
+    won: int
+    draw: int
+    lost: int
+    points: int
+    goals_for: int
+    goals_against: int
+    goal_difference: int
+
+    class Config(BaseConfig):
+        alias_generator = to_camel  # useful for calling parse_obj on an api response

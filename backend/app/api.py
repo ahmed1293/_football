@@ -5,7 +5,7 @@ import requests
 from fastapi import FastAPI
 
 from app import settings
-from app.models import Match, Team
+from app.models import Match, Team, TableEntry
 
 app = FastAPI()
 
@@ -29,9 +29,23 @@ def matches():
     )
     data = response.json()
     match_days = {}
-    for match in data['matches']:
-        match_day = match['matchday']
+    for match_obj in data['matches']:
+        match_day = match_obj['matchday']
         if match_day not in match_days:
             match_days[match_day] = []
-        match_days[match_day].append(Match.from_api_matchday_obj(match))
+        match_days[match_day].append(Match.parse_obj(match_obj))
     return match_days
+
+
+@app.get('/football/PL/table')
+def table():
+    response = requests.get(
+        url=f'{settings.FOOTBALL_DATA_URL}/PL/standings/',
+        headers={
+            'X-Auth-Token': settings.API_TOKEN
+        }
+    )
+    data = response.json()
+    # possible to get home/away tables, but we want total
+    total_table = [_table for _table in data['standings'] if _table['type'] == 'TOTAL'][0]['table']
+    return [TableEntry.parse_obj(entry) for entry in total_table]
