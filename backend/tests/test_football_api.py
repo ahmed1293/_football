@@ -55,25 +55,5 @@ def test_get_matches(client, mocked_responses):
     response = client.get('/football/PL/matches')
     assert response.status_code == 200
     data = response.json()
-    assert data['32'] == [
-        {
-            'date': 'Sunday 28 June 2020',
-            'time': '15:30',
-            'home': {"id": 346, "name": "Watford FC"},
-            'away': {"id": 340, "name": "Southampton FC"}
-        },
-        {
-            'date': 'Monday 29 June 2020',
-            'time': '19:00',
-            'home': {"id": 354, "name": "Crystal Palace FC"},
-            'away': {"id": 328, "name": "Burnley FC"}
-        },
-    ]
-    assert data['33'] == [
-        {
-            'date': 'Tuesday 30 June 2020',
-            'time': '19:15',
-            'home': {"id": 397, "name": "Brighton & Hove Albion FC"},
-            'away': {"id": 66, "name": "Manchester United FC"}
-        }
-    ]
+    assert len(data['32']) == 2
+    assert len(data['33']) == 1
