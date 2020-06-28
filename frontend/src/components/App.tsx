@@ -4,6 +4,7 @@ import {fetchPLTable} from "../services/football";
 import {TEAMS} from "../util/constants";
 import Spinner from "./Spinner";
 import TeamFilters from "./TeamFilters";
+import SearchInput from "./Search";
 
 export default function App() {
 
@@ -16,7 +17,7 @@ export default function App() {
 				 <TeamFilters/>
 			 </div>
 			 <div className='col-span-2 flex justify-center'>
-				 Search...
+				 <SearchInput/>
 			 </div>
 			 <div className='col-span-1 flex justify-center'>
 				 <Spinner/>
