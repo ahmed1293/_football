@@ -11,11 +11,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-query": "^1.1.2",
     "autoprefixer": "^9.8.4",
     "npm-run-all": "^4.1.5",
     "postcss-cli": "^7.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-query": "^2.4.2",
     "react-scripts": "3.4.1",
     "tailwindcss": "^1.4.6",
     "typescript": "~3.7.2"
@@ -23,13 +25,10 @@
   "scripts": {
     "build:tailwind": "postcss src/tailwind/tailwind.css -o src/tailwind/tailwind.generated.css",
     "watch:tailwind": "postcss -w src/tailwind/tailwind.css -o src/tailwind/tailwind.generated.css",
-
     "start": "run-p watch:tailwind start:react",
     "start:react": "react-scripts start",
-
     "prebuild": "yarn build:tailwind",
     "build": "react-scripts build",
-
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
