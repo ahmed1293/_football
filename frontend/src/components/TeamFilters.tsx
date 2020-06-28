@@ -9,6 +9,7 @@ export default function TeamFilters() {
 		{TEAMS.map(team => {
 			const theme = TEAM_THEMES[team];
 			return <button
+				key={team}
 				className={
 					`font-bold py-1 px-2 rounded focus:outline-none mr-3 hover:bg-opacity-75 text-sm ${theme.bg} ${theme.text}`
 				}>{team}
