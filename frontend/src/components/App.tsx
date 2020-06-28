@@ -1,8 +1,9 @@
 import React from 'react';
 import LeagueTable from "./LeagueTable";
 import {fetchPLTable} from "../services/football";
-import {ALL_TEAMS} from "../util/constants";
+import {TEAMS} from "../util/constants";
 import Spinner from "./Spinner";
+import TeamFilters from "./TeamFilters";
 
 export default function App() {
 
@@ -12,7 +13,7 @@ export default function App() {
 				 <h1 className='text-4xl mt-4'>_football</h1>
 			 </div>
 			 <div className='col-span-2 flex justify-center'>
-				 Buttons...
+				 <TeamFilters/>
 			 </div>
 			 <div className='col-span-2 flex justify-center'>
 				 Search...
@@ -21,7 +22,7 @@ export default function App() {
 				 <Spinner/>
 			 </div>
 			 <div className='col-span-1 flex justify-center'>
-				 <LeagueTable api={fetchPLTable} highlightedTeams={ALL_TEAMS}/>
+				 <LeagueTable api={fetchPLTable} highlightedTeams={TEAMS}/>
 			 </div>
 		 </div>
     </div>
