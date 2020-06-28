@@ -3,8 +3,8 @@ module.exports = {
   theme: {
     extend: {
     	colors: {
-    		'arsenal-home': '#DB0007',
-			'arsenal-text': '#fff',
+    		'afc-home': '#DB0007',
+			'afc-text': '#fff',
 			'thfc-home': '#fff',
 			'thfc-text': '#132257',
 			'lfc-home': '#C8102E',
@@ -13,10 +13,10 @@ module.exports = {
 			'mcfc-text': '#fff',
 			'mufc-home': '#DA291C',
 			'mufc-text': '#000000',
-			'chelsea-home': '#034694',
-			'chelsea-text': '#fff',
-			'norwich-home': '#00a650',
-			'norwich-text': '#fff200'
+			'cfc-home': '#034694',
+			'cfc-text': '#fff',
+			'ncfc-home': '#00a650',
+			'ncfc-text': '#fff200'
 		}
 	 },
   },
