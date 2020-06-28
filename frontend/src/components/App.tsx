@@ -1,10 +1,10 @@
 import React from 'react';
 import LeagueTable from "./LeagueTable";
-import {fetchPLTable} from "../services/football";
+import {fetchPLFixtures, fetchPLTable} from "../services/football";
 import {TEAMS} from "../util/constants";
-import Spinner from "./Spinner";
 import TeamFilters from "./TeamFilters";
 import SearchInput from "./Search";
+import Fixtures from "./Fixtures";
 
 export default function App() {
 
@@ -20,7 +20,7 @@ export default function App() {
 				 <SearchInput/>
 			 </div>
 			 <div className='col-span-1 flex justify-center'>
-				 <Spinner/>
+				 <Fixtures api={fetchPLFixtures} filters={[]}/>
 			 </div>
 			 <div className='col-span-1 flex justify-center'>
 				 <LeagueTable api={fetchPLTable} highlightedTeams={TEAMS}/>
