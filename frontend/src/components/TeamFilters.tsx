@@ -7,7 +7,7 @@ export default function TeamFilters() {
 			const theme = TEAM_THEMES[team];
 			return <button
 				className={
-					`font-bold py-1 px-2 rounded mr-3 hover:bg-opacity-75 ${theme.bg} ${theme.text}`
+					`font-bold py-1 px-2 rounded mr-3 hover:bg-opacity-75 text-sm ${theme.bg} ${theme.text}`
 				}>{team}
 			</button>
 		})}
