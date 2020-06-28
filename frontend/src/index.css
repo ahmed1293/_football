@@ -1,6 +1,6 @@
 .spinner {
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #8d0c17;
+  border-top: 4px solid #880e4f;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -10,4 +10,23 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* TODO: below probaly only works on chrome */
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #880e4f;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #880e4f;
 }
