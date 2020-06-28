@@ -19,10 +19,10 @@ export default function LeagueTable(props: Props) {
 	if (status === 'loading') {
 		return <Spinner/>;
 	}
-	return <div className='m-10'>
+	return <div className='m-10 h-full overflow-x-scroll'>
 		<table className='bg-gray-900 table-auto'>
 			<thead className='text-left'>
-				<tr className='text-xs border-solid border-2'>
+				<tr className='text-xs border-solid border-2 border-green-700'>
 					{HEADINGS.map(h => <th key={h} className='px-4 py-2'>{h}</th>)}
 				</tr>
 			</thead>
