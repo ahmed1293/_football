@@ -29,7 +29,7 @@ export default function Fixtures(props: Props) {
 					const date = matchesInDate[0];
 					const matches = matchesInDate[1];
 					return <div key={date} className='mt-5 ml-8'>
-						<div className='font-bold text-red-400'>{date}</div>
+						<div className='font-bold text-red-600'>{date}</div>
 						{matches.map(match => <div key={match.id} className='ml-5 mt-2'>
 							<span>{match.homeTeam.name}</span>
 							<span className='bg-gray-800 text-green-700 text-xs font-bold rounded p-1 m-3'>{match.time}</span>

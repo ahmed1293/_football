@@ -8,22 +8,22 @@ import Fixtures from "./Fixtures";
 
 export default function App() {
 
-    return <div className='text-gray-400 font-sans h-full'>
-		 <div className='grid grid-cols-2 divide-y divide-gray-200 divide-opacity-25 row-gap-5'>
-			 <div className='col-span-2 text-center'>
-				 <h1 className='text-4xl mt-4'>_football</h1>
+    return <div className='text-gray-400 font-sans border border-green-700'>
+		 <div className='grid grid-cols-6 divide-y divide-green-700 row-gap-3 divide-x'>
+			 <div className='col-span-6 text-center'>
+				 <h1 className='text-4xl mt-1 text-green-700'>_football</h1>
 			 </div>
-			 <div className='col-span-2 flex justify-center'>
-				 <TeamFilters/>
-			 </div>
-			 <div className='col-span-2 flex justify-center'>
+			 <div className='col-span-6 flex justify-center'>
 				 <SearchInput/>
 			 </div>
-			 <div className='col-span-1 flex justify-center'>
-				 <Fixtures api={fetchPLFixtures} filters={[]}/>
+			 <div className='md:col-span-1 flex justify-center col-span-6'>
+				 <TeamFilters/>
 			 </div>
-			 <div className='col-span-1 flex justify-center'>
+			 <div className='md:col-span-3 flex justify-center col-span-6'>
 				 <LeagueTable api={fetchPLTable} highlightedTeams={TEAMS}/>
+			 </div>
+			 <div className='md:col-span-2 flex justify-center col-span-6'>
+				 <Fixtures api={fetchPLFixtures} filters={[]}/>
 			 </div>
 		 </div>
     </div>

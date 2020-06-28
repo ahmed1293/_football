@@ -1,6 +1,6 @@
 .spinner {
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #880e4f;
+  border-top: 4px solid #2f855a;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -16,17 +16,17 @@
 *::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: #2d3748;
 }
 
 *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #880e4f;
+    width: 2px;
+    height: 2px;
+    background-color: #2f855a;
 }
 
 *::-webkit-scrollbar-thumb {
     border-radius: 5px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-    background-color: #880e4f;
+    background-color: #2f855a;
 }
