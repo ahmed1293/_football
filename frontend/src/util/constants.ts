@@ -7,7 +7,10 @@ export const UNITED = 'Manchester United FC';
 export const CHELSEA = 'Chelsea FC';
 export const NORWICH = 'Norwich City FC';
 
-export const TEAMS: Array<string> = [
+export type MainTeam = 'Arsenal FC' | 'Tottenham Hotspur FC' | 'Liverpool FC' |
+	'Manchester City FC' | 'Manchester United FC' | 'Chelsea FC' | 'Norwich City FC';
+
+export const TEAMS: Array<MainTeam> = [
   ARSENAL, SPURS, LIVERPOOL, CITY, UNITED, CHELSEA, NORWICH
 ];
 

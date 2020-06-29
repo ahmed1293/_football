@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export default function SearchInput() {
+export default function SearchInput(props: {updateSearchFilter: (s: string) => void}) {
 
 	return <div className='mt-5 w-1/2'>
 		<input
@@ -9,6 +9,7 @@ export default function SearchInput() {
 			text-gray-300 leading-tight focus:outline-none focus:outline-none"
 			type="text"
 			placeholder="Search..."
+			onChange={(e) => props.updateSearchFilter(e.target.value)}
 		/>
 	</div>
 

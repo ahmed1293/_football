@@ -2,10 +2,12 @@ import React from "react";
 import {TableEntry} from "../util/types";
 import Spinner from "./Spinner";
 import {useQuery} from "react-query";
+import {matchesFilter} from "../util/util";
 
 interface Props {
 	api: () => Promise<Array<TableEntry>>
-	highlightedTeams: Array<string>
+	teamFilters: Array<string>,
+	searchFilter: string
 }
 
 const HEADINGS = ['Position', 'Team', 'Played', 'Won', 'Drawn', 'Lost', 'For', 'Against', 'GD', 'Points'];
@@ -29,9 +31,8 @@ export default function LeagueTable(props: Props) {
 			<tbody>
 				{data && data.map(entry => <tr
 					key={entry.position}
-					className={'text-sm border-b border-black ' + (
-						props.highlightedTeams.includes(entry.team.name) ? 'bg-black text-white':''
-					)}
+					className={'text-sm border-b border-black ' +
+						(matchesFilter(entry.team.name, props.teamFilters, props.searchFilter) ? 'bg-black text-white':'')}
 				>
 					<td className='px-4 py-2'>{entry.position}</td>
 					<td className='px-4 py-2'>{entry.team.name}</td>
