@@ -3,9 +3,9 @@ from datetime import datetime
 
 import responses
 
-from app import settings
+from app.football_client import FootballClient
 
-API_URL_REGEX = re.compile(f'.*{settings.FOOTBALL_DATA_URL}.*')
+API_URL_REGEX = re.compile(f'.*{FootballClient.URL}.*')
 
 
 def test_get_matches(client, mocked_responses):

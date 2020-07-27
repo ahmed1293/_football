@@ -1,11 +1,11 @@
 from typing import Dict, List
 
-import requests
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app import settings
-from app.models import Match, Team, TableEntry
+from app.football_client import FootballClient
+from app.models import Match, TableEntry
 
 app = FastAPI()
 
@@ -29,15 +29,11 @@ def home():
 
 @app.get('/football/PL/matches', response_model=Dict[str, Dict[str, List[Match]]])
 def matches():
-	response = requests.get(
-		url=f'{settings.FOOTBALL_DATA_URL}/PL/matches/?status=SCHEDULED',
-		headers={
-			'X-Auth-Token': settings.API_TOKEN
-		}
-	)
-	data = response.json()
+	client = FootballClient(mock_responses=settings.LOCAL)
+	data = client.get_pl_matches()
+
 	matchdays = {}
-	matches_for_date = {}
+
 	for match_obj in data['matches']:
 		match = Match.parse_obj(match_obj)
 
@@ -51,15 +47,11 @@ def matches():
 	return matchdays
 
 
-@app.get('/football/PL/table')
+@app.get('/football/PL/table', response_model=List[TableEntry])
 def table():
-	response = requests.get(
-		url=f'{settings.FOOTBALL_DATA_URL}/PL/standings/',
-		headers={
-			'X-Auth-Token': settings.API_TOKEN
-		}
-	)
-	data = response.json()
+	client = FootballClient(mock_responses=settings.LOCAL)
+	data = client.get_pl_table()
+
 	# possible to get home/away tables, but we want total
 	total_table = [_table for _table in data['standings'] if _table['type'] == 'TOTAL'][0]['table']
 	return [TableEntry.parse_obj(entry) for entry in total_table]

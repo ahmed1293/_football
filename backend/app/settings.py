@@ -1,4 +1,4 @@
 import os
 
-API_TOKEN = os.environ['API_TOKEN']
-FOOTBALL_DATA_URL = 'https://api.football-data.org/v2/competitions'
+API_TOKEN = os.getenv('API_TOKEN')
+LOCAL = os.getenv('LOCAL', default=False) == 'True'
