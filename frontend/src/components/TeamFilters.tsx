@@ -1,5 +1,5 @@
 import React from "react";
-import {MainTeam, TEAM_THEMES, TEAMS} from "../util/constants";
+import {MainTeam, SPURS, TEAM_THEMES, TEAMS} from "../util/constants";
 
 interface Props {
 	teamFilters: Array<MainTeam>,
@@ -7,6 +7,13 @@ interface Props {
 	removeTeamFilter: (t: MainTeam) => void,
 	removeAllTeamFilters: () => void,
 	addAllTeamFilters: () => void
+}
+
+function getDisplayTeamName(team: string) {
+	if (team === SPURS) {
+		return team + ' 💩';
+	}
+	return team;
 }
 
 export default function TeamFilters(props: Props) {
@@ -29,7 +36,7 @@ export default function TeamFilters(props: Props) {
 					+ (isSelected ?`${theme.bg} ${theme.text}`:'border border-black')
 				}
 				onClick={isSelected ? () => props.removeTeamFilter(team) : () => props.addTeamFilter(team)}
-			>{team}</button>
+			>{getDisplayTeamName(team)}</button>
 		})}
 	</div>
 }
