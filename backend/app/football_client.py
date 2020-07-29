@@ -1,22 +1,17 @@
-import json
-
 import requests
 
 from app import settings
+from app.util import respond_if_local
 
 
 class FootballClient:
-
 	URL = 'https://api.football-data.org/v2/competitions'
 
-	def __init__(self, mock_responses=False):
-		self.mock_responses = mock_responses
+	def __init__(self):
 		self._token = settings.API_TOKEN
 
+	@respond_if_local(mock_data_path='mocks/pl_table.json')
 	def get_pl_table(self):
-		if self.mock_responses:
-			return self._get_mock_data('mocks/pl_table.json')
-
 		response = requests.get(
 			url=f'{self.URL}/PL/standings/',
 			headers={
@@ -25,10 +20,8 @@ class FootballClient:
 		)
 		return response.json()
 
+	@respond_if_local(mock_data_path='mocks/pl_matches.json')
 	def get_pl_matches(self):
-		if self.mock_responses:
-			return self._get_mock_data('mocks/pl_matches.json')
-
 		response = requests.get(
 			url=f'{self.URL}/PL/matches/?status=SCHEDULED',
 			headers={
@@ -36,8 +29,3 @@ class FootballClient:
 			}
 		)
 		return response.json()
-
-	def _get_mock_data(self, path):
-		with open(path) as _json:
-			mock_data = json.load(_json)
-			return mock_data

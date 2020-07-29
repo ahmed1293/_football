@@ -3,7 +3,6 @@ from typing import Dict, List
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app import settings
 from app.football_client import FootballClient
 from app.models import Match, TableEntry
 
@@ -29,7 +28,7 @@ def home():
 
 @app.get('/football/PL/matches', response_model=Dict[str, Dict[str, List[Match]]])
 def matches():
-	client = FootballClient(mock_responses=settings.LOCAL)
+	client = FootballClient()
 	data = client.get_pl_matches()
 
 	matchdays = {}
@@ -49,7 +48,7 @@ def matches():
 
 @app.get('/football/PL/table', response_model=List[TableEntry])
 def table():
-	client = FootballClient(mock_responses=settings.LOCAL)
+	client = FootballClient()
 	data = client.get_pl_table()
 
 	# possible to get home/away tables, but we want total
