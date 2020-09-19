@@ -1,10 +1,10 @@
 from __future__ import annotations
-from datetime import datetime
+
 from typing import Any, Optional
 
 from pydantic.main import BaseModel, BaseConfig
 
-from app.util import to_camel
+from app.util import to_camel, KickOffTime
 
 
 class Team(BaseModel):
@@ -24,10 +24,9 @@ class Match(BaseModel):
 	@classmethod
 	def parse_obj(cls: Match, obj: Any) -> Match:
 		match: Match = super().parse_obj(obj)
-		if not match.date or not match.time:  # the api response parsed doesn't contain these fields
-			_dt = datetime.strptime(match.utc_date, '%Y-%m-%dT%H:%M:%SZ')
-			match.date = _dt.strftime('%A %d %B %Y')
-			match.time = _dt.strftime('%H:%M')
+		ko_time = KickOffTime.from_utc_date(match.utc_date)
+		match.date = ko_time.date
+		match.time = ko_time.time
 		return match
 
 	class Config(BaseConfig):

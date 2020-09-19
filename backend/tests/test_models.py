@@ -1,4 +1,5 @@
 from app.models import Match, Team, TableEntry
+from app.util import KickOffTime
 
 
 def test_can_create_match_from_api_response():
@@ -17,8 +18,9 @@ def test_can_create_match_from_api_response():
     })
 
     assert match.id == 264657
-    assert match.date == 'Monday 29 June 2020'
-    assert match.time == '19:00'
+    ko_time = KickOffTime.from_utc_date(match.utc_date)
+    assert match.date == ko_time.date
+    assert match.time == ko_time.time
     assert match.home_team == Team(id=354, name='Crystal Palace FC')
     assert match.away_team == Team(id=328, name='Burnley FC')
 
